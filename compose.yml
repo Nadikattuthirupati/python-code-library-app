@@ -1,13 +1,15 @@
 ---
 services:
   db:
-    image: shaikmustafa/flm2026:dbimage
+    image: nthirupathireddy/pyapp:db_image
     ports:
       - "3306:3306"
     deploy:
       replicas: 1
+    networks:
+    - mynetwork
   auth_service:
-    image: shaikmustafa/flm2026:authimage
+    image: nthirupathireddy/pyapp:auth_image
     ports:
       - "5001:5001"
     deploy:
@@ -15,28 +17,37 @@ services:
     depends_on:
       - db
   book_service:
-    image: shaikmustafa/flm2026:bookimage
+    image: nthirupathireddy/pyapp:book_image
     ports:
       - "5002:5002"
     deploy:
       replicas: 1
+    networks:
+    - mynetwork
     depends_on:
       - db
   borrow_service:
-    image: shaikmustafa/flm2026:borrowimage
+    image: nthirupathireddy/pyapp:borrow_image
     ports:
       - "5003:5003"
     deploy:
       replicas: 1
+    networks:
+    - mynetwork
     depends_on:
       - db
   app_service:
-    image: shaikmustafa/flm2026:appimage
+    image: nthirupathireddy/pyapp:app_image
     ports:
       - "5000:5000"
     deploy:
       replicas: 1
+    networks:
+    - mynetwork
     depends_on:
       - auth_service
       - book_service
       - borrow_service
+networks:
+ mynetwork:
+driver: overlay
