@@ -7,15 +7,19 @@ services:
     deploy:
       replicas: 1
     networks:
-    - mynetwork
+      - mynetwork
+
   auth_service:
     image: nthirupathireddy/pyapp:auth_image
     ports:
       - "5001:5001"
     deploy:
       replicas: 1
+    networks:
+      - mynetwork
     depends_on:
       - db
+
   book_service:
     image: nthirupathireddy/pyapp:book_image
     ports:
@@ -23,9 +27,10 @@ services:
     deploy:
       replicas: 1
     networks:
-    - mynetwork
+      - mynetwork
     depends_on:
       - db
+
   borrow_service:
     image: nthirupathireddy/pyapp:borrow_image
     ports:
@@ -33,9 +38,10 @@ services:
     deploy:
       replicas: 1
     networks:
-    - mynetwork
+      - mynetwork
     depends_on:
       - db
+
   app_service:
     image: nthirupathireddy/pyapp:app_image
     ports:
@@ -43,11 +49,12 @@ services:
     deploy:
       replicas: 1
     networks:
-    - mynetwork
+      - mynetwork
     depends_on:
       - auth_service
       - book_service
       - borrow_service
+
 networks:
- mynetwork:
-driver: overlay
+  mynetwork:
+    driver: overlay
